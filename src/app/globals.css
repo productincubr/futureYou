@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gradient: linear-gradient(135deg, #7C3AED, #06B6D4);
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background: #ffffff;
+  color: #0f0f0f;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-btn {
+  background: var(--gradient);
+  color: white;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: opacity 0.2s, transform 0.2s;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.gradient-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.cta-gradient {
+  background: linear-gradient(
+    90deg,
+    #ad46ff 0%,
+    #e12afb 55%,
+    #00d3f3 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta-btn::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: -14px;
+
+  transform: translateX(-50%);
+
+  width: 85%;
+  height: 24px;
+
+  background: linear-gradient(
+    90deg,
+    #ad46ff,
+    #e12afb,
+    #00d3f3
+  );
+
+  filter: blur(20px);
+
+  opacity: 0.6;
+
+  z-index: -1;
+}
