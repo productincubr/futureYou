@@ -138,7 +138,7 @@ export default function UploadCard() {
     reader.onload = (e) => {
       const prev = URL.createObjectURL(file)
       const base64 = (e.target?.result as string)?.split(',')[1] || ''
-      storeSetPhoto(file, prev, base64)
+      storeSetPhoto(file, prev)
       setLocalPhoto(file)
       setPreview(prev)
     }
