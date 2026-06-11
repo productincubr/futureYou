@@ -1,91 +1,48 @@
 import { create } from 'zustand'
 
-interface Goals {
-  weightLoss: string
-  buildMuscle: string
-  fitnessLevel: string
-  confidence: string
-}
-
-interface TransformStore {
+interface TransformState {
   photo: File | null
   photoPreview: string | null
-  photoBase64: string | null
-
-  goals: Goals
+  goals: {
+    weightLoss: string
+    buildMuscle: string
+    fitnessLevel: string
+    confidence: string
+  }
   habits: string[]
   timeline: string
-
-  isUploading: boolean
-  isTransforming: boolean
-  uploadedFilename: string
-  uploadedUrl: string
   transformedImage: string | null
   transformError: string | null
-
-  setPhoto: (file: File, preview: string, base64: string) => void
-  setGoals: (g: Partial<Goals>) => void
-  setHabits: (h: string[]) => void
-  setTimeline: (t: string) => void
-  setIsUploading: (v: boolean) => void
-  setUploadResult: (filename: string, url: string) => void
-  setIsTransforming: (v: boolean) => void
-  setTransformedImage: (img: string) => void
+  setPhoto: (file: File, preview: string) => void
+  setGoals: (goals: Partial<TransformState['goals']>) => void
+  setHabits: (habits: string[]) => void
+  setTimeline: (timeline: string) => void
+  setTransformedImage: (url: string) => void
   setTransformError: (err: string) => void
   reset: () => void
 }
 
-const defaultGoals: Goals = {
-  weightLoss: '',
-  buildMuscle: '',
-  fitnessLevel: '',
-  confidence: '',
-}
-
-export const useTransformStore = create<TransformStore>((set) => ({
+export const useTransformStore = create<TransformState>((set) => ({
   photo: null,
   photoPreview: null,
-  photoBase64: null,
-
-  goals: defaultGoals,
+  goals: { weightLoss: '', buildMuscle: '', fitnessLevel: '', confidence: '' },
   habits: [],
   timeline: '',
-
-  isUploading: false,
-  isTransforming: false,
-  uploadedFilename: '',
-  uploadedUrl: '',
   transformedImage: null,
   transformError: null,
-
-  setPhoto: (file, preview, base64) =>
-    set({ photo: file, photoPreview: preview, photoBase64: base64 }),
-
-  setGoals: (g) =>
-    set((state) => ({ goals: { ...state.goals, ...g } })),
-
-  setHabits: (h) => set({ habits: h }),
-  setTimeline: (t) => set({ timeline: t }),
-  setIsUploading: (v) => set({ isUploading: v }),
-  setUploadResult: (filename, url) =>
-    set({ isUploading: false, uploadedFilename: filename, uploadedUrl: url }),
-  setIsTransforming: (v) => set({ isTransforming: v }),
-  setTransformedImage: (img) =>
-    set({ transformedImage: img, isTransforming: false }),
-  setTransformError: (err) =>
-    set({ transformError: err, isTransforming: false }),
-
-  reset: () =>
-    set({
-      photo: null,
-      photoPreview: null,
-      photoBase64: null,
-      goals: defaultGoals,
-      habits: [],
-      timeline: '',
-      transformedImage: null,
-      transformError: null,
-      uploadedFilename: '',
-      uploadedUrl: '',
-    }),
+  setPhoto: (file, preview) => set({ photo: file, photoPreview: preview }),
+  setGoals: (goals) => set((s) => ({ goals: { ...s.goals, ...goals } })),
+  setHabits: (habits) => set({ habits }),
+  setTimeline: (timeline) => set({ timeline }),
+  setTransformedImage: (url) => set({ transformedImage: url }),
+  setTransformError: (err) => set({ transformError: err }),
+  reset: () => set({
+    photo: null,
+    photoPreview: null,
+    goals: { weightLoss: '', buildMuscle: '', fitnessLevel: '', confidence: '' },
+    habits: [],
+    timeline: '',
+    transformedImage: null,
+    transformError: null,
+  }),
 }))

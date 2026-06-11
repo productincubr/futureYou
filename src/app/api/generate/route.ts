@@ -1,23 +1,44 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
-  const { prompt } = await req.json();
+  try {
+    const { prompt } = await req.json()
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: process.env.GROQ_MODEL,
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 1024,
-    }),
-  });
+    if (!process.env.FAL_KEY) {
+      return NextResponse.json({ error: 'FAL_KEY not set in .env.local' }, { status: 500 })
+    }
 
-  const data = await response.json();
-  const text = data.choices?.[0]?.message?.content || "";
+    const response = await fetch('https://fal.run/fal-ai/flux/schnell', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Key ${process.env.FAL_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt,
+        image_size: 'portrait_4_3',
+        num_inference_steps: 4,
+        num_images: 1,
+      }),
+    })
 
-  return NextResponse.json({ text });
+    if (!response.ok) {
+      const err = await response.text()
+      console.error('Fal error:', err)
+      return NextResponse.json({ error: err }, { status: 500 })
+    }
+
+    const data = await response.json()
+    const imageUrl = data?.images?.[0]?.url
+
+    if (!imageUrl) {
+      return NextResponse.json({ error: 'No image returned from fal.ai' }, { status: 500 })
+    }
+
+    return NextResponse.json({ imageUrl })
+
+  } catch (error: any) {
+    console.error('Generate error:', error)
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
 }
