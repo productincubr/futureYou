@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
         },
         body: JSON.stringify({
           prompt,
-          num_steps: 4,
+          steps: 4,
         }),
       }
     )
