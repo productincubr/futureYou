@@ -13,6 +13,32 @@ const steps = [
   { label: 'Finalizing your future self...', pct: 100 },
 ]
 
+// Downscale the uploaded photo so its longest side is at most `maxSide`, as JPEG
+async function resizeImage(source: File | string, maxSide: number) {
+  const url = typeof source === 'string' ? source : URL.createObjectURL(source)
+  try {
+    const img = new Image()
+    img.src = url
+    await img.decode()
+
+    const scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight))
+    const width = Math.round(img.naturalWidth * scale)
+    const height = Math.round(img.naturalHeight * scale)
+
+    const canvas = document.createElement('canvas')
+    canvas.width = width
+    canvas.height = height
+    canvas.getContext('2d')!.drawImage(img, 0, 0, width, height)
+
+    const blob = await new Promise<Blob>((resolve, reject) =>
+      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('Could not process photo'))), 'image/jpeg', 0.92),
+    )
+    return { blob, width, height }
+  } finally {
+    if (typeof source !== 'string') URL.revokeObjectURL(url)
+  }
+}
+
 export default function GeneratingPage() {
   const router = useRouter()
   const {
@@ -54,21 +80,20 @@ export default function GeneratingPage() {
 
     const run = async () => {
       try {
-        // Build prompt from user goals
-        const parts = []
-        if (goals.weightLoss) parts.push(`${goals.weightLoss} weight loss`)
-        if (goals.buildMuscle) parts.push(`${goals.buildMuscle} muscle gain`)
-        if (goals.fitnessLevel) parts.push(`${goals.fitnessLevel} fitness level`)
+        // Model needs the reference photo under 512x512
+        const resized = await resizeImage(photo ?? photoPreview, 512)
 
-        const prompt = `Photorealistic fitness transformation photo, athletic person, 
-          ${parts.join(', ')}, ${timeline} transformation, 
-          confident posture, studio lighting, professional fitness photography, 
-          healthy and strong physique, high quality`
+        const form = new FormData()
+        form.append('image', resized.blob, 'photo.jpg')
+        form.append('width', String(resized.width))
+        form.append('height', String(resized.height))
+        form.append('goals', JSON.stringify(goals))
+        form.append('habits', JSON.stringify(habits))
+        form.append('timeline', timeline)
 
         const res = await fetch('/api/generate', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt }),
+          body: form,
         })
 
         const data = await res.json()
