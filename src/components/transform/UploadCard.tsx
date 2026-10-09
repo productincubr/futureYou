@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Upload, ShieldCheck, ArrowRight, Target, Zap, Calendar } from 'lucide-react'
+import { Upload, ShieldCheck, ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTransformStore } from '@/store/transformStore'
+import StepIndicator from './StepIndicator'
 
 function BrainIllustration() {
   return (
@@ -61,48 +62,13 @@ function PsychologyIllustration() {
   )
 }
 
-const steps = [
-  { label: 'Upload Photo', icon: Upload },
-  { label: 'Set Goals', icon: Target },
-  { label: 'Define Habits', icon: Zap },
-  { label: 'Choose Timeline', icon: Calendar },
-]
-
-function StepBar({ current = 0 }: { current?: number }) {
-  return (
-    <div className="flex items-center justify-center gap-0 mb-10">
-      {steps.map((step, i) => {
-        const Icon = step.icon
-        const active = i === current
-        const done = i < current
-        return (
-          <div key={i} className="flex items-center">
-            <div
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium transition-all ${
-                active ? 'text-white shadow-md' : done ? 'text-violet-500 bg-violet-50' : 'text-gray-400 bg-transparent'
-              }`}
-              style={active ? { background: 'linear-gradient(135deg,#a855f7,#6366f1)' } : {}}
-            >
-              <Icon size={13} />
-              <span>{step.label}</span>
-            </div>
-            {i < steps.length - 1 && (
-              <div className={`w-8 h-px mx-1 ${done ? 'bg-violet-300' : 'bg-gray-200'}`} />
-            )}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
 const infoCards = [
   {
     num: '1',
     title: 'Visual Priming',
     desc: 'Seeing your future self activates embodied content in your brain.',
     illustration: <BrainIllustration />,
-    gradient: 'from-indigo-50 to-blue-50',
+    gradient: 'from-indigo-50 to-blue-50 dark:from-indigo-500/10 dark:to-blue-500/5',
     accent: '#6366F1',
   },
   {
@@ -110,7 +76,7 @@ const infoCards = [
     title: 'Identity Reinforcement',
     desc: 'Daily exposure helps you make decisions aligned with your future self.',
     illustration: <IdentityIllustration />,
-    gradient: 'from-violet-50 to-purple-50',
+    gradient: 'from-violet-50 to-purple-50 dark:from-violet-500/10 dark:to-purple-500/5',
     accent: '#7C3AED',
   },
   {
@@ -118,7 +84,7 @@ const infoCards = [
     title: 'Future Self Psychology',
     desc: 'See your future self and see how ready to achieve their goals.',
     illustration: <PsychologyIllustration />,
-    gradient: 'from-orange-50 to-amber-50',
+    gradient: 'from-orange-50 to-amber-50 dark:from-orange-500/10 dark:to-amber-500/5',
     accent: '#F97316',
   },
 ]
@@ -158,24 +124,24 @@ export default function UploadCard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-ink-950 flex flex-col">
 
-      <div className="px-8 pt-8">
+      <div className="px-4 sm:px-8 pt-6 sm:pt-8">
         <button
           onClick={() => router.push('/')}
-          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
         >
           <ArrowRight size={14} className="rotate-180" />
           Back to Home
         </button>
       </div>
 
-      <div className="px-8 pt-6">
-        <StepBar current={0} />
+      <div className="px-4 sm:px-8 pt-6">
+        <StepIndicator current={0} />
       </div>
 
-      <div className="text-center px-8 mb-8">
-        <h1 className="font-serif text-3xl md:text-4xl font-semibold mb-2 text-gray-900">
+      <div className="text-center px-4 sm:px-8 mb-8">
+        <h1 className="font-serif text-3xl md:text-4xl font-semibold mb-2 text-gray-900 dark:text-white">
           Upload Your{' '}
           <span
             className="italic"
@@ -193,11 +159,11 @@ export default function UploadCard() {
         </p>
       </div>
 
-      <div className="flex-1 px-8 pb-4">
+      <div className="flex-1 px-4 sm:px-8 pb-4">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-5 gap-6 items-start">
 
           {/* Upload Card */}
-          <div className="md:col-span-2 bg-white rounded-3xl border border-gray-100 shadow-md p-6 flex flex-col gap-5">
+          <div className="md:col-span-2 bg-white dark:bg-ink-900 rounded-3xl border border-gray-100 dark:border-white/10 shadow-md p-4 sm:p-6 flex flex-col gap-5">
 
             <div
               onClick={() => inputRef.current?.click()}
@@ -206,9 +172,9 @@ export default function UploadCard() {
               onDrop={onDrop}
               className={`
                 rounded-2xl border-2 border-dashed cursor-pointer
-                flex flex-col items-center justify-center py-14
+                flex flex-col items-center justify-center py-10 sm:py-14 px-4 text-center
                 transition-all select-none
-                ${dragging ? 'border-violet-400 bg-violet-50' : 'border-gray-200 bg-gray-50 hover:border-violet-300 hover:bg-violet-50'}
+                ${dragging ? 'border-violet-400 bg-violet-50 dark:bg-violet-500/10' : 'border-gray-200 bg-gray-50 hover:border-violet-300 hover:bg-violet-50 dark:border-white/15 dark:bg-ink-800 dark:hover:border-violet-400/60 dark:hover:bg-violet-500/10'}
               `}
             >
               {preview ? (
@@ -221,7 +187,7 @@ export default function UploadCard() {
                   >
                     <Upload size={22} className="text-white" />
                   </div>
-                  <p className="font-medium text-gray-700 text-sm">Drop your photo here or click to browse</p>
+                  <p className="font-medium text-gray-700 dark:text-gray-200 text-sm">Drop your photo here or click to browse</p>
                   <p className="text-xs text-gray-400 mt-1.5">PNG, JPG up to 10MB</p>
                 </>
               )}
@@ -239,14 +205,11 @@ export default function UploadCard() {
             />
 
             <div className="flex items-start gap-3">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg,#ede9fe,#dbeafe)' }}
-              >
-                <ShieldCheck size={16} className="text-violet-500" />
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br from-[#ede9fe] to-[#dbeafe] dark:from-violet-500/20 dark:to-blue-500/15">
+                <ShieldCheck size={16} className="text-violet-500 dark:text-violet-300" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-700">100% Private &amp; Encrypted</p>
+                <p className="text-xs font-semibold text-gray-700 dark:text-gray-200">100% Private &amp; Encrypted</p>
                 <p className="text-xs text-gray-400 leading-relaxed">
                   Your photo is never stored or shared. Processed locally with end-to-end encryption.
                 </p>
@@ -257,12 +220,11 @@ export default function UploadCard() {
               <button
                 onClick={handleContinue}
                 disabled={!localPhoto}
-                className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all"
-                style={{
-                  background: localPhoto ? 'linear-gradient(135deg,#a855f7,#6366f1)' : '#E5E7EB',
-                  color: localPhoto ? '#fff' : '#9CA3AF',
-                  cursor: localPhoto ? 'pointer' : 'not-allowed',
-                }}
+                className={`w-full sm:w-auto px-6 py-3 sm:py-2.5 rounded-full text-sm font-semibold transition-all ${
+                  localPhoto
+                    ? 'text-white bg-gradient-to-br from-[#a855f7] to-[#6366f1]'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed dark:bg-white/10 dark:text-gray-500'
+                }`}
               >
                 Continue to Goals →
               </button>
@@ -274,7 +236,7 @@ export default function UploadCard() {
             {infoCards.map((card) => (
               <div
                 key={card.num}
-                className={`bg-gradient-to-b ${card.gradient} rounded-2xl border border-gray-100 shadow-sm p-4 flex flex-col items-start`}
+                className={`bg-gradient-to-b ${card.gradient} rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm p-4 flex flex-col items-start`}
               >
                 <div
                   className="w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold mb-3"
@@ -282,9 +244,9 @@ export default function UploadCard() {
                 >
                   {card.num}
                 </div>
-                <p className="text-sm font-semibold text-gray-800 mb-1 leading-tight">{card.title}</p>
+                <p className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-1 leading-tight">{card.title}</p>
                 <p className="text-xs text-gray-400 leading-relaxed mb-4">{card.desc}</p>
-                <div className="w-full aspect-square max-w-[110px] mx-auto mt-auto">
+                <div className="w-full aspect-square max-w-[110px] mx-auto mt-auto dark:opacity-90">
                   {card.illustration}
                 </div>
               </div>
@@ -294,8 +256,8 @@ export default function UploadCard() {
         </div>
       </div>
 
-      <div className="py-5 text-center px-8">
-        <p className="text-xs text-gray-500">
+      <div className="py-5 text-center px-4 sm:px-8">
+        <p className="text-xs text-gray-500 dark:text-gray-400">
           <span
             className="font-semibold"
             style={{

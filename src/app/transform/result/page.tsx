@@ -21,10 +21,10 @@ export default function ResultPage() {
   ].filter((g) => g.value)
 
   return (
-    <div className="min-h-screen bg-[#fafafa] py-12 px-6">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-ink-950 py-8 sm:py-12 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
 
-        <button onClick={handleStartOver} className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-600 mb-10">
+        <button onClick={handleStartOver} className="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 mb-8 sm:mb-10">
           ← Back to Home
         </button>
 
@@ -38,7 +38,7 @@ export default function ResultPage() {
         </div>
 
         <div className="text-center mb-10">
-          <h1 className="font-serif text-4xl md:text-5xl mb-2">
+          <h1 className="font-serif text-4xl md:text-5xl mb-2 text-gray-900 dark:text-white">
             This Is{' '}
             <span
               className="italic"
@@ -56,23 +56,23 @@ export default function ResultPage() {
 
         {/* Error state */}
         {transformError && (
-          <div className="bg-red-50 border border-red-100 rounded-2xl p-6 text-center mb-8">
+          <div className="bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 rounded-2xl p-6 text-center mb-8">
             <p className="text-red-500 font-medium mb-2">Something went wrong</p>
             <p className="text-red-400 text-sm">{transformError}</p>
           </div>
         )}
 
         {/* Before / After */}
-        <div className="bg-white rounded-3xl border border-gray-100 shadow-lg overflow-hidden mb-8">
+        <div className="bg-white dark:bg-ink-900 rounded-3xl border border-gray-100 dark:border-white/10 shadow-lg dark:shadow-black/40 overflow-hidden mb-8">
           <div className="grid grid-cols-2 gap-0">
             <div className="relative">
               <div className="absolute top-3 left-3 z-10 bg-black/50 text-white text-xs px-3 py-1 rounded-full">
                 Before
               </div>
               {photoPreview ? (
-                <img src={photoPreview} alt="Before" className="w-full h-[380px] object-cover" />
+                <img src={photoPreview} alt="Before" className="w-full h-[240px] sm:h-[380px] object-cover" />
               ) : (
-                <div className="w-full h-[380px] bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                <div className="w-full h-[240px] sm:h-[380px] bg-gray-100 dark:bg-ink-800 flex items-center justify-center text-gray-400 text-sm">
                   No photo
                 </div>
               )}
@@ -85,9 +85,9 @@ export default function ResultPage() {
                 After
               </div>
               {transformedImage ? (
-                <img src={transformedImage} alt="After" className="w-full h-[380px] object-cover" />
+                <img src={transformedImage} alt="After" className="w-full h-[240px] sm:h-[380px] object-cover" />
               ) : (
-                <div className="w-full h-[380px] bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                <div className="w-full h-[240px] sm:h-[380px] bg-gray-100 dark:bg-ink-800 flex items-center justify-center text-gray-400 text-sm">
                   {transformError ? 'Transform failed' : 'Processing...'}
                 </div>
               )}
@@ -97,11 +97,11 @@ export default function ResultPage() {
 
         {/* Goal chips */}
         {goalItems.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8">
             {goalItems.map((g) => (
-              <div key={g.label} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 text-center">
+              <div key={g.label} className="bg-white dark:bg-ink-900 rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm p-4 text-center">
                 <div className="text-2xl mb-1">{g.icon}</div>
-                <p className="font-semibold text-gray-800 text-sm">{g.value}</p>
+                <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">{g.value}</p>
                 <p className="text-xs text-gray-400 mt-0.5">{g.label}</p>
               </div>
             ))}
@@ -122,7 +122,7 @@ export default function ResultPage() {
           )}
           <button
             onClick={handleStartOver}
-            className="flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50"
+            className="flex items-center justify-center gap-2 px-8 py-3 rounded-full border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-ink-800"
           >
             <RotateCcw size={16} /> Start Over
           </button>

@@ -44,19 +44,19 @@ const places = [
 
 export default function DailyReinforcement() {
   return (
-    <section className="py-24 px-6 bg-white">
+    <section className="py-16 px-4 sm:px-6 bg-white dark:bg-ink-950">
       <div className="max-w-5xl mx-auto">
 
         {/* Eyebrow */}
         <div className="flex justify-center mb-4">
-          <div className="inline-flex items-center gap-2 border border-gray-200 rounded-full px-3 py-1">
+          <div className="inline-flex items-center gap-2 border border-gray-200 dark:border-white/10 rounded-full px-3 py-1">
             <span className="text-indigo-400 text-xs">✦</span>
             <span className="text-xs uppercase tracking-widest text-gray-400">Daily Reinforcement</span>
           </div>
         </div>
 
         {/* Heading */}
-        <h2 className="font-serif text-4xl md:text-5xl font-semibold text-center leading-tight mb-4">
+        <h2 className="font-serif text-[32px] sm:text-4xl md:text-5xl font-semibold text-center leading-tight mb-4 text-gray-900 dark:text-white">
           Your Future Self Shouldn't
           <br />
           <span
@@ -73,20 +73,20 @@ export default function DailyReinforcement() {
         </h2>
 
         {/* Subtext */}
-        <p className="text-gray-400 text-sm text-center max-w-md mx-auto mb-12 leading-relaxed">
+        <p className="text-gray-400 text-sm text-center max-w-md mx-auto mb-10 md:mb-12 leading-relaxed">
           Put your transformation where your eyes naturally go — your phone, mirror, desk,
           journal, and daily routine.
         </p>
 
         {/* Grid */}
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {places.map((place) => {
             const Icon = place.Icon
             return (
               <div key={place.label} className="flex flex-col gap-3">
 
                 {/* Image */}
-                <div className="rounded-2xl overflow-hidden w-full h-[200px] bg-gray-100">
+                <div className="rounded-2xl overflow-hidden w-full h-[200px] bg-gray-100 dark:bg-ink-800">
                   <img
                     src={place.image}
                     alt={place.label}
@@ -100,14 +100,11 @@ export default function DailyReinforcement() {
 
                 {/* Icon + label + desc */}
                 <div className="flex items-start gap-3">
-                  <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
-                    style={{ background: 'linear-gradient(135deg, #ede9fe, #dbeafe)' }}
-                  >
-                    <Icon size={16} className="text-indigo-500" />
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 bg-gradient-to-br from-[#ede9fe] to-[#dbeafe] dark:from-violet-500/20 dark:to-blue-500/15">
+                    <Icon size={16} className="text-indigo-500 dark:text-indigo-300" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-gray-800">{place.label}</p>
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{place.label}</p>
                     <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{place.desc}</p>
                   </div>
                 </div>

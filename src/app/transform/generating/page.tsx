@@ -91,8 +91,8 @@ export default function GeneratingPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#fafafa] flex flex-col items-center justify-center px-6">
-      <div className="w-full max-w-md bg-white rounded-3xl border border-gray-100 shadow-xl p-10 text-center">
+    <div className="min-h-screen bg-[#fafafa] dark:bg-ink-950 flex flex-col items-center justify-center px-4 sm:px-6">
+      <div className="w-full max-w-md bg-white dark:bg-ink-900 rounded-3xl border border-gray-100 dark:border-white/10 shadow-xl dark:shadow-black/40 p-6 sm:p-10 text-center">
 
         {/* Icon */}
         <div
@@ -103,7 +103,7 @@ export default function GeneratingPage() {
         </div>
 
         {/* Title */}
-        <h2 className="font-serif text-3xl mb-2 text-gray-900">
+        <h2 className="font-serif text-3xl mb-2 text-gray-900 dark:text-white">
           Creating Your{' '}
           <span
             className="italic"
@@ -118,7 +118,7 @@ export default function GeneratingPage() {
         </h2>
 
         {/* Progress bar */}
-        <div className="mt-8 mb-3 h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="mt-8 mb-3 h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-1000"
             style={{
@@ -127,11 +127,11 @@ export default function GeneratingPage() {
             }}
           />
         </div>
-        <p className="text-sm font-medium text-gray-700">{progress}%</p>
+        <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{progress}%</p>
         <p className="mt-3 text-sm text-gray-400 italic">{steps[stepIndex].label}</p>
 
         {/* Info box */}
-        <div className="mt-8 bg-violet-50 rounded-2xl p-4 text-xs text-gray-500 leading-relaxed">
+        <div className="mt-8 bg-violet-50 dark:bg-violet-500/10 rounded-2xl p-4 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
           ✦ Our AI is creating a photoreal preview of your transformation based on your goals,
           habits, and timeline. This usually takes 45–60 seconds.
         </div>

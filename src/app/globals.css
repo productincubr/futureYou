@@ -16,11 +16,35 @@
   padding: 0;
 }
 
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   font-family: var(--font-body);
   background: #ffffff;
   color: #0f0f0f;
   -webkit-font-smoothing: antialiased;
+}
+
+html.dark body {
+  background: #09090f;
+  color: #f4f4f5;
+}
+
+/* Theme switch: circular reveal (driven by ThemeToggle via View Transitions API) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
 }
 
 .font-display {
